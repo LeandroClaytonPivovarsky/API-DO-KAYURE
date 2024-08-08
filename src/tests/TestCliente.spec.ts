@@ -3,6 +3,7 @@ import * as server from "../server";
 import { app } from "../server"; // Certifique-se de que o caminho está correto
 import { Request, Response } from "express";
 import { Cliente } from "../models/Cliente";
+import { listarClientes } from "../controllers/ClienteController";
 
 describe("Teste da Rota incluirCliente", () => {
   let clienteId: number;
@@ -82,6 +83,15 @@ describe("Teste da Rota listarClientes", () => {
     expect(response.status).toBe(200);
     expect(duration).toBeLessThan(100); // Verifica se a resposta é retornada em menos de 500ms
   });
+
+  it("Deve retornar erro 404 caso não encontre nenhum cliente", async () =>{
+  
+    const response = await request(app).get("/clientes")
+
+    expect(response.status).toBe(404);
+    expect(response.body).toHaveProperty("message", "Nenhum cliente encontrado/inserido")
+   
+  })
 });
 
 describe("Teste da Rota excluirCliente", () => {

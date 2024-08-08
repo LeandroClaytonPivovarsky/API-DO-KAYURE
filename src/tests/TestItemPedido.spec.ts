@@ -3,6 +3,8 @@ import * as server from "../server";
 import { app } from "../server"; // Certifique-se de que o caminho está correto
 import { Request, Response } from "express";
 import { Produto } from "../models/Produto";
+import { ItemDoPedido } from "../models/ItemDoPedido";
+import { getItemDoPedidoById } from "../controllers/ItemDoPedidoController";
 
 describe("Teste da Rota incluirProduto", () => {
   let produtoId: number;
@@ -130,3 +132,12 @@ describe("Teste da Rota atualizarProduto", () => {
     await Produto.destroy({ where: { id: produtoId } });
   });
 });
+
+describe("Teste de integração", async () =>{
+  it("Retornar item com informações do cliente"), async () => {
+    const itemPedido = await request(app).get(`/itensDoPedido/1`)
+    
+    expect(itemPedido.clienteid.)
+
+  }
+})
