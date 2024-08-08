@@ -135,9 +135,10 @@ describe("Teste da Rota atualizarProduto", () => {
 
 describe("Teste de integração", async () =>{
   it("Retornar item com informações do cliente"), async () => {
-    const itemPedido = await request(app).get(`/itensDoPedido/1`)
+    const response = await request(app).get(`/itensDoPedido/1`)
     
-    expect(itemPedido.clienteid.)
+    expect(response.body)
+
 
   }
 })
