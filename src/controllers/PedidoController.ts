@@ -52,6 +52,7 @@ export const getPedidoById = async (req: Request, res: Response) => {
       ]
     });
 
+
     if (pedido) {
       const response = {
         pedido: {

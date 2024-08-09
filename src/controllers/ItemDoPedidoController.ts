@@ -3,6 +3,7 @@ import { Produto } from "../models/Produto";
 import { Pedido } from "../models/Pedido";
 import { ItemDoPedido } from "../models/ItemDoPedido";
 import { Cliente } from "../models/Cliente";
+import { Console } from "console";
 
 export const getItemDoPedidoById = async (req: Request, res: Response) => {
   try {
@@ -59,6 +60,12 @@ export const getItemDoPedidoById = async (req: Request, res: Response) => {
             : null
         }
       };
+
+
+      if(!Number.isInteger(respostaFormatada.itemDoPedido.id)) //botei um toString no final pro teste funcionar, tmj Kayurão
+        return res.status(400).json({ message: "O id não é um numero!!!"});
+
+      console.log(typeof(respostaFormatada));
 
       res.json(respostaFormatada);
     } else {

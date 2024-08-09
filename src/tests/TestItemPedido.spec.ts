@@ -1,10 +1,9 @@
 const request = require("supertest");
-import * as server from "../server";
 import { app } from "../server"; // Certifique-se de que o caminho está correto
-import { Request, Response } from "express";
 import { Produto } from "../models/Produto";
-import { ItemDoPedido } from "../models/ItemDoPedido";
-import { getItemDoPedidoById } from "../controllers/ItemDoPedidoController";
+import { Pedido } from '../models/Pedido';
+import { Cliente } from '../models/Cliente';
+import Response from 'express';
 
 describe("Teste da Rota incluirProduto", () => {
   let produtoId: number;
@@ -133,12 +132,43 @@ describe("Teste da Rota atualizarProduto", () => {
   });
 });
 
-describe("Teste de integração", async () =>{
-  it("Retornar item com informações do cliente"), async () => {
+describe("Teste de integração", () =>{
+  it("Retornar item com informações do cliente", async () => {
     const response = await request(app).get(`/itensDoPedido/1`)
+
+    expect(response.body.id_pedido).toBeDefined;
+    expect(response.body.id_produto).toBeDefined;
+    expect(response.body.Cliente).toBeDefined;
+  })
+
+  it("Deve retornar erro 404 se o pedido não for encontrado", async () => {
+    const ID = 999999999;
+
+    const response = await request(app).get(`/itensDoPedido/${ID}`);
+
+    expect(response.status).toBe(404);
+  });
+
+  it('Deve retornar o item pedido em menos de 200 ms', async () => {
     
-    expect(response.body)
+    const ID = 1;
+    const start = Date.now();
+    const response = await request(app).get(`/itensDoPedido/${ID}`);
+    const duration = Date.now() - start;
 
 
-  }
+
+
+    expect(response.status).toBe(200);
+    expect(duration).toBeLessThan(200);
+  });
+
+  it('Deve retornar 400 se o id não for um número ', async () => {
+    
+    const response = await request(app).get(`/itensDoPedido/1`);
+
+    expect(response.status).toBe(400);
+    expect(response.body).toHaveProperty('message', "O id não é um numero!!!");
+
+  })
 })
